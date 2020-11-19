@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends 'crudapp/base.html' %}
+{% block body %}
+<h1 class="text-center alert alert-primary">Basic Car Application</h1>
+<br>
+<div class="container">
+<div class="row">
+
+        <div class="col-sm-4 ">
+            <h3 class="text-center alert alert-warning">ADD CAR</h3>
+            <form action="{% url 'crudapp:addsearchcar' %}" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <br>
+               <div class="text-center"> <input type="submit" value="SaveData" class="text-center btn-lg btn btn-primary"></div>
+            </form>
+        </div>
+        <div class="col-sm-8 ">
+            <h3 class="text-center alert alert-warning ml-5">CAR DATA</h3>
+            <table class="table table-hover table-dark ml-5">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">NAME</th>
+                  <th scope="col">COLOR</th>
+                  <th scope="col">NUMBER</th>
+                  <th scope="col">REGCITY</th>
+                  <th scope="col" class="text-center">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if cars %}
+              {% for car in cars %}
+                <tr>
+                  <td>{{car.id}}</td>
+                  <td>{{car.name}}</td>
+                  <td>{{car.color}}</td>
+                  <td>{{car.car_number}}</td>
+                  <td>{{car.reg_city}}</td>
+                     <td><a href="{% url 'crudapp:updatecar' car.id %}" class="btn btn-warning btn-sm">Update</a></td>
+                    <form action="{% url 'crudapp:deletecar' car.id %}" class="d-inline" method="post">
+                        {% csrf_token %}
+                        <td><input type="submit" value="Delete" class="btn btn-danger btn-sm"></input></td>
+                    </form>
+
+                </tr>
+              {% endfor %}
+              {% endif %}
+              </tbody>
+            </table>
+
+    </div>
+</div>
+</div>
+
+{% endblock body %}
